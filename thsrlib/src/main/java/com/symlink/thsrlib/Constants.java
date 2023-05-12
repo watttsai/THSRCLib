@@ -21,6 +21,8 @@ public class Constants {
     public static final int CODE_FAIL_INVALID_AMOUNT = 702;
     public static final int CODE_FAIL_USER_CANCEL = 703;
     public static final int CODE_FAIL_RECORD_NOT_FOUND = 704;
+    public static final int CODE_FAIL_INVALID_CARDTYPE_USE_CREDIT_CARD_INSTEAD = 705;
+    public static final int CODE_FAIL_INVALID_CARDTYPE_USE_CUP_CARD_INSTEAD = 706;
     public static final int CODE_FAIL_BLUETOOTH_DISCONNECTED_AFTER_CONNECTION = 800;
     public static final int CODE_FAIL_BLUETOOTH_CLOSED = 900;
     public static final int CODE_FAIL_NO_MATCH_DEVICE = 901;
@@ -42,12 +44,14 @@ public class Constants {
     public static final String MESSAGE_FAIL_INVALID_AMOUNT = "交易金額為0";
     public static final String MESSAGE_FAIL_USER_CANCEL = "操作錯誤/交易終止";
     public static final String MESSAGE_FAIL_RECORD_NOT_FOUND = "無此筆交易紀錄";
+    public static final String MESSAGE_FAIL_INVALID_CARDTYPE_USE_CREDIT_CARD_INSTEAD = "卡別錯誤，請使用信用卡";
+    public static final String MESSAGE_FAIL_INVALID_CARDTYPE_USE_CUP_CARD_INSTEAD = "卡別錯誤，請使用銀聯卡";
     public static final String MESSAGE_FAIL_BLUETOOTH_DISCONNECTED_AFTER_CONNECTION = "藍牙連線後斷線";
     public static final String MESSAGE_FAIL_BLUETOOTH_CLOSED = "藍牙未開啟";
     public static final String MESSAGE_FAIL_NO_MATCH_DEVICE = "藍牙無法搜尋到裝置";
     public static final String MESSAGE_FAIL_UNABLE_TO_PAIR_BLUETOOTH = "無法配對藍牙";
     public static final String MESSAGE_FAIL_BLUETOOTH_NOT_CONNECTED = "藍牙未連線";
-    public static final String MESSAGE_UNKNOWN = "未知錯誤";
+    public static final String MESSAGE_UNKNOWN = "未知訊息";
 
     public static String GetMessage(int code) {
         switch (code) {
@@ -79,6 +83,10 @@ public class Constants {
                 return MESSAGE_FAIL_USER_CANCEL;
             case CODE_FAIL_RECORD_NOT_FOUND: // 704
                 return MESSAGE_FAIL_RECORD_NOT_FOUND;
+            case CODE_FAIL_INVALID_CARDTYPE_USE_CREDIT_CARD_INSTEAD: // 705
+                return MESSAGE_FAIL_INVALID_CARDTYPE_USE_CREDIT_CARD_INSTEAD;
+            case CODE_FAIL_INVALID_CARDTYPE_USE_CUP_CARD_INSTEAD: // 706
+                return MESSAGE_FAIL_INVALID_CARDTYPE_USE_CUP_CARD_INSTEAD;
             case CODE_FAIL_BLUETOOTH_DISCONNECTED_AFTER_CONNECTION: // 800
                 return MESSAGE_FAIL_BLUETOOTH_DISCONNECTED_AFTER_CONNECTION;
             case CODE_FAIL_BLUETOOTH_CLOSED: // 900
@@ -91,7 +99,8 @@ public class Constants {
                 return MESSAGE_FAIL_BLUETOOTH_NOT_CONNECTED;
             case CODE_UNKNOWN: // 999
             default:
-                return MESSAGE_UNKNOWN;
+                // include the error code in error message
+                return code + ":" + MESSAGE_UNKNOWN;
         }
     }
 }

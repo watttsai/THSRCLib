@@ -109,6 +109,9 @@ public class TicketManager {
             Log.e(TAG, e.getMessage());
         } finally {
             context = null;
+            bluetoothStatus = BluetoothStatus.None;
+            deviceStatus = DeviceStatus.Off;
+            readerStatus = ReaderStatus.Off;
             Log.d(TAG, "Release");
         }
     }

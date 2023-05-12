@@ -2,7 +2,6 @@ package com.symlink.thsrlib;
 
 import android.util.Log;
 
-import com.symlink.thsrlib.commands.fields.Cmd;
 import com.symlink.thsrlib.commands.CommandResponse;
 import com.symlink.thsrlib.commands.CreditCardInquiryResponse;
 import com.symlink.thsrlib.commands.CreditCardSaleResponse;
@@ -13,6 +12,7 @@ import com.symlink.thsrlib.commands.InquireCardResponse;
 import com.symlink.thsrlib.commands.ReaderConnectionResponse;
 import com.symlink.thsrlib.commands.SuccessResponse;
 import com.symlink.thsrlib.commands.exceptions.ParseErrorException;
+import com.symlink.thsrlib.commands.fields.Cmd;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -132,8 +132,14 @@ public class Parser {
                 return Constants.CODE_FAIL_USER_CANCEL;
             case 0x1004:
                 return Constants.CODE_FAIL_RECORD_NOT_FOUND;
+            case 0x1005:
+                return Constants.CODE_FAIL_INVALID_CARDTYPE_USE_CREDIT_CARD_INSTEAD;
+            case 0x1006:
+                return Constants.CODE_FAIL_INVALID_CARDTYPE_USE_CUP_CARD_INSTEAD;
             default:
-                return Constants.CODE_UNKNOWN;
+                // when there is no match with any predefined error code, return the original 'sc' value
+                // note that the 'sc' value is represented in hexadecimal (base 16), while the error code is in decimal (base 10)
+                return Integer.parseInt(Integer.toHexString(sc));
         }
     }
 }
