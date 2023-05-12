@@ -51,10 +51,14 @@ public class TicketManager {
     private IDataListener dataListener;
 
     private BluetoothStatus bluetoothStatus = BluetoothStatus.None;
+
     private DeviceStatus deviceStatus = DeviceStatus.Off;
     private ReaderStatus readerStatus = ReaderStatus.Off;
     private int sn = 1; // latest serial no
 
+    public DeviceStatus getDeviceStatus() {
+        return deviceStatus;
+    }
     private TicketManager() {
         gattUpdateReceiver = new GattUpdateReceiver();
         bluetoothStateReceiver = new BluetoothStateReceiver();
@@ -125,7 +129,7 @@ public class TicketManager {
         serviceConnection = new ServiceConnection() {
             public void onServiceConnected(ComponentName name, IBinder binder) {
                 bluetoothSppService = ((BluetoothSppService.LocalBinder) binder).getService();
-                bluetoothSppService.connect();
+                //bluetoothSppService.connect();
             }
 
             @Override
@@ -376,7 +380,7 @@ public class TicketManager {
             showToast("藍牙尚未啟用成功！");
         }
     }
-
+    public Integer latestCommandCode;
     public byte[] createCommand(int sn, int cmd, byte[] data) {
         // packet: SOH(1) + payloadLength(2) + payload + LRC(1)
         // payload: SN(1) + CMD(2) + data(n)
@@ -391,7 +395,7 @@ public class TicketManager {
         buf.put(lrc);
         Log.d(TAG, String.format("Request: SN=%02X, CMD=%04X, Data='%s'",
                 sn, cmd, HexUtil.encodeHexStr(data)));
-
+        latestCommandCode = cmd;
         return buf.array();
     }
 
